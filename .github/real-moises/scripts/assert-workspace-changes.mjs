@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import process from "node:process";
 
 const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-const event = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH, "utf8"));
+const event = JSON.parse(await readFile(process.env.REAL_MOISES_EVENT_PATH || process.env.GITHUB_EVENT_PATH, "utf8"));
 const tracked = lines(git(["diff", "--name-only"]));
 const untracked = lines(git(["ls-files", "--others", "--exclude-standard"]));
 
@@ -31,7 +31,7 @@ async function comment(body) {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${process.env.GH_TOKEN}`,
       "Content-Type": "application/json",
-      "X-GitHub-Api-Version": "2022-11-28"
+      "X-GitHub-Api-Version": "2026-03-10"
     },
     body: JSON.stringify({ body })
   });
